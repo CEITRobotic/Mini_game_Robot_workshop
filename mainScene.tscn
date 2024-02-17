@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0n472dp47yy3"]
+
+[ext_resource type="PackedScene" uid="uid://bklfjl404jtpu" path="res://Prefabs/path.tscn" id="1_023be"]
+[ext_resource type="PackedScene" uid="uid://djbaaomfxuvxg" path="res://Prefabs/player.tscn" id="2_hbvyn"]
+[ext_resource type="Texture2D" uid="uid://byjctmspq2qo" path="res://Images/Forward.png" id="3_imi3c"]
+[ext_resource type="Texture2D" uid="uid://ffollx30wcg7" path="res://Images/Rotate Left.png" id="3_t6g6a"]
+[ext_resource type="Texture2D" uid="uid://dcoti5s5pasx1" path="res://Images/Backward.png" id="5_ikmp8"]
+[ext_resource type="Texture2D" uid="uid://bmrsr6sbmxrix" path="res://Images/Rotate Right.png" id="6_07njq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gkdk3"]
+sky_top_color = Color(0.427451, 0.737255, 0.952941, 1)
+sky_horizon_color = Color(0.646595, 0.73117, 0.780208, 1)
+sky_energy_multiplier = 0.9
+ground_bottom_color = Color(0.158929, 0.187424, 0.167889, 1)
+ground_horizon_color = Color(0.646595, 0.73117, 0.780208, 1)
+
+[sub_resource type="Sky" id="Sky_6cejo"]
+sky_material = SubResource("ProceduralSkyMaterial_gkdk3")
+
+[sub_resource type="Environment" id="Environment_x8rog"]
+background_mode = 2
+sky = SubResource("Sky_6cejo")
+tonemap_mode = 2
+
+[node name="MainScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_x8rog")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.909807, 0.222348, -0.350447, 0.146151, 0.618657, 0.771948, 0.388448, -0.753542, 0.530361, -3.32564, 11.5435, 7.74867)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 17.9387, 0)
+
+[node name="Path" parent="." instance=ExtResource("1_023be")]
+
+[node name="Path2" parent="." instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="Path3" parent="." instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Path4" parent="." instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_hbvyn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.13389, 0)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 174.0
+offset_top = 479.035
+offset_right = 938.0
+offset_bottom = 567.035
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="RL_MarginContainer2" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="RotateLeftButton" type="Button" parent="UI/HBoxContainer/RL_MarginContainer2"]
+layout_mode = 2
+icon = ExtResource("3_t6g6a")
+flat = true
+
+[node name="FW_MarginContainer" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="ForwardButton" type="Button" parent="UI/HBoxContainer/FW_MarginContainer"]
+layout_mode = 2
+icon = ExtResource("3_imi3c")
+flat = true
+
+[node name="BW_MarginContainer2" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="BackwardButton" type="Button" parent="UI/HBoxContainer/BW_MarginContainer2"]
+layout_mode = 2
+icon = ExtResource("5_ikmp8")
+flat = true
+
+[node name="RR_MarginContainer3" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="RotateRightButton" type="Button" parent="UI/HBoxContainer/RR_MarginContainer3"]
+layout_mode = 2
+icon = ExtResource("6_07njq")
+flat = true

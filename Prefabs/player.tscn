@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://djbaaomfxuvxg"]
+
+[ext_resource type="Script" path="res://Scripts/player.cs" id="1_oocnf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3qrvt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aecn7"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_pjnf1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4nqop"]
+albedo_color = Color(0.615686, 0, 0, 1)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_oocnf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_3qrvt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_aecn7")
+
+[node name="Pointer" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.66607e-08, 0.333824, 0, 1.66607e-08, 6.37832e-16, -0.138917, -0.381153, -1.45919e-08, -6.07224e-09, 0.743451, 0.343666, 0)
+mesh = SubResource("PrismMesh_pjnf1")
+surface_material_override/0 = SubResource("StandardMaterial3D_4nqop")
