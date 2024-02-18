@@ -6,8 +6,8 @@ public partial class player : CharacterBody3D
     public string slot_text;
 
     private int direction = 0;
-    private bool _isForward = false;
     private int x = 0;
+    private int z = 0;
 
     public override void _Ready()
     {
@@ -23,7 +23,8 @@ public partial class player : CharacterBody3D
         }
 
         rotationY((float)delta);
-        GD.Print(direction);
+
+        GD.Print(GlobalPosition);
 
         MoveAndSlide();
     }
@@ -37,20 +38,39 @@ public partial class player : CharacterBody3D
         {
             case -1:
                 RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, -90, delta * 10), 0);
+
+                GlobalPosition = new Vector3(
+                    GlobalPosition.X,
+                    GlobalPosition.Y,
+                    Mathf.Lerp(GlobalPosition.Z, z, delta * 10)
+                );
                 break;
             case 0:
+                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 0, delta * 10), 0);
+
                 GlobalPosition = new Vector3(
                     Mathf.Lerp(GlobalPosition.X, x, delta * 10),
                     GlobalPosition.Y,
                     GlobalPosition.Z
                 );
-                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 0, delta * 10), 0);
                 break;
             case 1:
                 RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 90, delta * 10), 0);
+
+                GlobalPosition = new Vector3(
+                    GlobalPosition.X,
+                    GlobalPosition.Y,
+                    Mathf.Lerp(GlobalPosition.Z, z, delta * 10)
+                );
                 break;
             case 2:
                 RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 180, delta * 10), 0);
+
+                GlobalPosition = new Vector3(
+                    Mathf.Lerp(GlobalPosition.X, x, delta * 10),
+                    GlobalPosition.Y,
+                    GlobalPosition.Z
+                );
                 break;
         }
     }
@@ -62,19 +82,21 @@ public partial class player : CharacterBody3D
 
     private void _on_forward_button_pressed()
     {
-        if (direction == 0)
+        switch (direction)
         {
-            x++;
+            case -1:
+                z++;
+                break;
+            case 0:
+                x++;
+                break;
+            case 1:
+                z--;
+                break;
+            case 2:
+                x--;
+                break;
         }
-        else if (direction == 2)
-        {
-            x--;
-        }
-    }
-
-    private void _on_backward_button_pressed()
-    {
-        // Replace with function body.
     }
 
     private void _on_rotate_right_button_pressed()

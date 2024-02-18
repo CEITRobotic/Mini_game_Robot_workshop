@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://b0n472dp47yy3"]
+[gd_scene load_steps=10 format=3 uid="uid://b0n472dp47yy3"]
 
 [ext_resource type="PackedScene" uid="uid://bklfjl404jtpu" path="res://Prefabs/path.tscn" id="1_023be"]
 [ext_resource type="PackedScene" uid="uid://djbaaomfxuvxg" path="res://Prefabs/player.tscn" id="2_hbvyn"]
 [ext_resource type="Texture2D" uid="uid://byjctmspq2qo" path="res://Images/Forward.png" id="3_imi3c"]
 [ext_resource type="Texture2D" uid="uid://ffollx30wcg7" path="res://Images/Rotate Left.png" id="3_t6g6a"]
-[ext_resource type="Texture2D" uid="uid://dcoti5s5pasx1" path="res://Images/Backward.png" id="5_ikmp8"]
 [ext_resource type="Texture2D" uid="uid://bmrsr6sbmxrix" path="res://Images/Rotate Right.png" id="6_07njq"]
 [ext_resource type="Texture2D" uid="uid://baj367tij834g" path="res://Images/play-button.png" id="8_le13v"]
 
@@ -119,16 +118,6 @@ layout_mode = 2
 icon = ExtResource("3_imi3c")
 flat = true
 
-[node name="BW_MarginContainer2" type="MarginContainer" parent="UI/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 50
-
-[node name="BackwardButton" type="Button" parent="UI/HBoxContainer/BW_MarginContainer2"]
-layout_mode = 2
-icon = ExtResource("5_ikmp8")
-flat = true
-
 [node name="RR_MarginContainer3" type="MarginContainer" parent="UI/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 50
@@ -142,5 +131,4 @@ flat = true
 [connection signal="pressed" from="UI/Play" to="Player" method="_on_play_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/RL_MarginContainer2/RotateLeftButton" to="Player" method="_on_rotate_left_button_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/FW_MarginContainer/ForwardButton" to="Player" method="_on_forward_button_pressed"]
-[connection signal="pressed" from="UI/HBoxContainer/BW_MarginContainer2/BackwardButton" to="Player" method="_on_backward_button_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/RR_MarginContainer3/RotateRightButton" to="Player" method="_on_rotate_right_button_pressed"]
