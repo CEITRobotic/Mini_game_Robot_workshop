@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0n472dp47yy3"]
+[gd_scene load_steps=11 format=3 uid="uid://b0n472dp47yy3"]
 
 [ext_resource type="PackedScene" uid="uid://bklfjl404jtpu" path="res://Prefabs/path.tscn" id="1_023be"]
 [ext_resource type="PackedScene" uid="uid://djbaaomfxuvxg" path="res://Prefabs/player.tscn" id="2_hbvyn"]
@@ -6,29 +6,31 @@
 [ext_resource type="Texture2D" uid="uid://ffollx30wcg7" path="res://Images/Rotate Left.png" id="3_t6g6a"]
 [ext_resource type="Texture2D" uid="uid://dcoti5s5pasx1" path="res://Images/Backward.png" id="5_ikmp8"]
 [ext_resource type="Texture2D" uid="uid://bmrsr6sbmxrix" path="res://Images/Rotate Right.png" id="6_07njq"]
+[ext_resource type="Texture2D" uid="uid://baj367tij834g" path="res://Images/play-button.png" id="8_le13v"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gkdk3"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cq47o"]
 sky_top_color = Color(0.427451, 0.737255, 0.952941, 1)
-sky_horizon_color = Color(0.646595, 0.73117, 0.780208, 1)
+sky_horizon_color = Color(0.663725, 0.802941, 0.917647, 1)
 sky_energy_multiplier = 0.9
-ground_bottom_color = Color(0.158929, 0.187424, 0.167889, 1)
-ground_horizon_color = Color(0.646595, 0.73117, 0.780208, 1)
+ground_bottom_color = Color(0.227451, 0.47451, 0.717647, 1)
+ground_horizon_color = Color(0.663725, 0.802941, 0.917647, 1)
 
-[sub_resource type="Sky" id="Sky_6cejo"]
-sky_material = SubResource("ProceduralSkyMaterial_gkdk3")
+[sub_resource type="Sky" id="Sky_kepdq"]
+sky_material = SubResource("ProceduralSkyMaterial_cq47o")
 
-[sub_resource type="Environment" id="Environment_x8rog"]
+[sub_resource type="Environment" id="Environment_c0mkb"]
 background_mode = 2
-sky = SubResource("Sky_6cejo")
+sky = SubResource("Sky_kepdq")
 tonemap_mode = 2
 
 [node name="MainScene" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_x8rog")
+environment = SubResource("Environment_c0mkb")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.909807, 0.222348, -0.350447, 0.146151, 0.618657, 0.771948, 0.388448, -0.753542, 0.530361, -3.32564, 11.5435, 7.74867)
+size = 0.1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 17.9387, 0)
@@ -45,24 +47,53 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_hbvyn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.13389, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.134, 0)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Play" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 1033.0
+offset_top = 28.0
+offset_right = 1121.0
+offset_bottom = 116.0
+icon = ExtResource("8_le13v")
+flat = true
+
+[node name="TC_MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
 offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 35
+
+[node name="TextControl" type="Label" parent="UI/TC_MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Text . . ."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 174.0
-offset_top = 479.035
-offset_right = 938.0
-offset_bottom = 567.035
+offset_left = -382.0
+offset_top = -115.51
+offset_right = 382.0
+offset_bottom = -27.51
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
@@ -107,3 +138,9 @@ theme_override_constants/margin_right = 50
 layout_mode = 2
 icon = ExtResource("6_07njq")
 flat = true
+
+[connection signal="pressed" from="UI/Play" to="Player" method="_on_play_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/RL_MarginContainer2/RotateLeftButton" to="Player" method="_on_rotate_left_button_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/FW_MarginContainer/ForwardButton" to="Player" method="_on_forward_button_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/BW_MarginContainer2/BackwardButton" to="Player" method="_on_backward_button_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/RR_MarginContainer3/RotateRightButton" to="Player" method="_on_rotate_right_button_pressed"]
