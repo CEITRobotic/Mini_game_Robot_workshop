@@ -4,105 +4,114 @@ using Godot;
 public partial class player : CharacterBody3D
 {
     public string slot_text;
+    private Label text_control;
 
-    private int direction = 0;
     private int x = 0;
     private int z = 0;
 
+    private float rotate_value = 0f;
+    private bool isPlay = false;
+
     public override void _Ready()
     {
-        Label text_control = GetNode<Label>($"../UI/TC_MarginContainer/TextControl");
-        text_control.Text = "Hello World";
+        text_control = GetNode<Label>($"../UI/TC_MarginContainer/TextControl");
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        text_control.Text = slot_text;
+
         if (IsOnFloor() != true)
         {
             Velocity = Vector3.Down * (float)delta * 1000;
         }
 
-        rotationY((float)delta);
+        startSimulation((float)delta);
 
-        GD.Print(GlobalPosition);
+        if (isPlay != false)
+        {
+            calculateControlling();
+            isPlay = false;
+        }
+
+        /* GD.Print(RotationDegrees); */
+        /* GD.Print(rotate_value); */
 
         MoveAndSlide();
     }
 
-    private void rotationY(float delta)
+    private void startSimulation(float delta)
     {
-        direction = direction > 2 ? -1 : direction;
-        direction = direction < -1 ? 2 : direction;
+        rotate_value %= 360f;
 
-        switch (direction)
+        RotationDegrees = new Vector3(RotationDegrees.X, rotate_value, RotationDegrees.Z);
+
+        GlobalPosition = new Vector3(
+            GlobalPosition.X,
+            GlobalPosition.Y,
+            Mathf.Lerp(GlobalPosition.Z, z, delta * 10)
+        );
+
+        GlobalPosition = new Vector3(
+            Mathf.Lerp(GlobalPosition.X, x, delta * 10),
+            GlobalPosition.Y,
+            GlobalPosition.Z
+        );
+    }
+
+    private async void calculateControlling()
+    {
+        string[] words_control = slot_text.Split(' ');
+        foreach (string control in words_control)
         {
-            case -1:
-                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, -90, delta * 10), 0);
-
-                GlobalPosition = new Vector3(
-                    GlobalPosition.X,
-                    GlobalPosition.Y,
-                    Mathf.Lerp(GlobalPosition.Z, z, delta * 10)
-                );
-                break;
-            case 0:
-                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 0, delta * 10), 0);
-
-                GlobalPosition = new Vector3(
-                    Mathf.Lerp(GlobalPosition.X, x, delta * 10),
-                    GlobalPosition.Y,
-                    GlobalPosition.Z
-                );
-                break;
-            case 1:
-                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 90, delta * 10), 0);
-
-                GlobalPosition = new Vector3(
-                    GlobalPosition.X,
-                    GlobalPosition.Y,
-                    Mathf.Lerp(GlobalPosition.Z, z, delta * 10)
-                );
-                break;
-            case 2:
-                RotationDegrees = new Vector3(0, Mathf.Lerp(RotationDegrees.Y, 180, delta * 10), 0);
-
-                GlobalPosition = new Vector3(
-                    Mathf.Lerp(GlobalPosition.X, x, delta * 10),
-                    GlobalPosition.Y,
-                    GlobalPosition.Z
-                );
-                break;
+            switch (control)
+            {
+                case "Left":
+                    rotate_value += 90f;
+                    break;
+                case "Right":
+                    rotate_value -= 90f;
+                    break;
+                case "Forward":
+                    if (Mathf.Abs(rotate_value) == 0)
+                    {
+                        x++;
+                    }
+                    else if (Mathf.Abs(rotate_value) == 180)
+                    {
+                        x--;
+                    }
+                    else if (rotate_value == 90 || rotate_value == -270)
+                    {
+                        z--;
+                    }
+                    else if (rotate_value == 270 || rotate_value == -90)
+                    {
+                        z++;
+                    }
+                    break;
+            }
+            await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
         }
     }
 
     private void _on_rotate_left_button_pressed()
     {
-        direction++;
+        slot_text += "Left ";
     }
 
     private void _on_forward_button_pressed()
     {
-        switch (direction)
-        {
-            case -1:
-                z++;
-                break;
-            case 0:
-                x++;
-                break;
-            case 1:
-                z--;
-                break;
-            case 2:
-                x--;
-                break;
-        }
+        slot_text += "Forward ";
     }
 
     private void _on_rotate_right_button_pressed()
     {
-        direction--;
+        slot_text += "Right ";
     }
 
-    private void _on_play_pressed() { }
+    private void _on_play_pressed()
+    {
+        isPlay = true;
+    }
 }

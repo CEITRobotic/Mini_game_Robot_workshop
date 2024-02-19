@@ -47,6 +47,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_hbvyn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.134, 0)
+rotation_edit_mode = 1
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
