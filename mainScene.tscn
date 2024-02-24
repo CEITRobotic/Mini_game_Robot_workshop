@@ -1,9 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0n472dp47yy3"]
+[gd_scene load_steps=14 format=3 uid="uid://b0n472dp47yy3"]
 
 [ext_resource type="PackedScene" uid="uid://bklfjl404jtpu" path="res://Prefabs/path.tscn" id="1_023be"]
+[ext_resource type="PackedScene" uid="uid://bc0pcpif28xnf" path="res://Prefabs/goal.tscn" id="2_crhjf"]
 [ext_resource type="PackedScene" uid="uid://djbaaomfxuvxg" path="res://Prefabs/player.tscn" id="2_hbvyn"]
+[ext_resource type="PackedScene" uid="uid://cca0b2kd5qaaw" path="res://Prefabs/gear.tscn" id="2_xe044"]
 [ext_resource type="Texture2D" uid="uid://byjctmspq2qo" path="res://Images/Forward.png" id="3_imi3c"]
+[ext_resource type="Script" path="res://Scripts/goal.cs" id="3_jq5yv"]
 [ext_resource type="Texture2D" uid="uid://ffollx30wcg7" path="res://Images/Rotate Left.png" id="3_t6g6a"]
+[ext_resource type="FontFile" uid="uid://caegspg2rcx87" path="res://Fonts/FalconsFont.ttf" id="4_syhau"]
 [ext_resource type="Texture2D" uid="uid://bmrsr6sbmxrix" path="res://Images/Rotate Right.png" id="6_07njq"]
 [ext_resource type="Texture2D" uid="uid://baj367tij834g" path="res://Images/play-button.png" id="8_le13v"]
 
@@ -28,25 +32,58 @@ tonemap_mode = 2
 environment = SubResource("Environment_c0mkb")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.909807, 0.222348, -0.350447, 0.146151, 0.618657, 0.771948, 0.388448, -0.753542, 0.530361, -3.32564, 11.5435, 7.74867)
+transform = Transform3D(0.904165, 0.315899, -0.287567, 0, 0.673167, 0.73949, 0.427184, -0.668621, 0.608654, 0.138405, 6.29137, 6.71351)
 size = 0.1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 17.9387, 0)
 
-[node name="Path" parent="." instance=ExtResource("1_023be")]
+[node name="PathGame" type="Node3D" parent="."]
 
-[node name="Path2" parent="." instance=ExtResource("1_023be")]
+[node name="Path" parent="PathGame" instance=ExtResource("1_023be")]
+
+[node name="Path2" parent="PathGame" instance=ExtResource("1_023be")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="Path3" parent="." instance=ExtResource("1_023be")]
+[node name="Path3" parent="PathGame" instance=ExtResource("1_023be")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="Path4" parent="." instance=ExtResource("1_023be")]
+[node name="Path7" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Path4" parent="PathGame" instance=ExtResource("1_023be")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
-[node name="Player" parent="." instance=ExtResource("2_hbvyn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.134, 0)
+[node name="Path5" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Path6" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
+
+[node name="Path8" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
+
+[node name="Path12" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2)
+
+[node name="Path13" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)
+
+[node name="Path9" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+
+[node name="Path10" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Path11" parent="PathGame" instance=ExtResource("1_023be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4)
+
+[node name="Goal" parent="PathGame" instance=ExtResource("2_crhjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 2)
+script = ExtResource("3_jq5yv")
+
+[node name="Player" parent="." groups=["player"] instance=ExtResource("2_hbvyn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.134, 0)
 rotation_edit_mode = 1
 
 [node name="UI" type="Control" parent="."]
@@ -57,6 +94,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+
+[node name="SC_MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 30
+
+[node name="Score" type="Label" parent="UI/SC_MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_syhau")
+text = "Score: 0"
 
 [node name="Play" type="Button" parent="UI"]
 layout_mode = 0
@@ -72,16 +121,19 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -1287.5
+offset_right = 1287.5
+offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_constants/margin_top = 35
 
 [node name="TextControl" type="Label" parent="UI/TC_MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_syhau")
 text = "Text . . ."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 1
@@ -128,6 +180,48 @@ theme_override_constants/margin_right = 50
 layout_mode = 2
 icon = ExtResource("6_07njq")
 flat = true
+
+[node name="PanelContainer" type="PanelContainer" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/PanelContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.980392, 0.776471, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.890196, 0.94902, 0.960784, 1)
+theme_override_colors/font_outline_color = Color(0.576471, 0.372549, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_syhau")
+theme_override_font_sizes/font_size = 40
+text = "Congratulation You Win !"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SC_MarginContainer" type="MarginContainer" parent="UI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 155
+theme_override_constants/margin_right = 50
+
+[node name="Score" type="Label" parent="UI/PanelContainer/SC_MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.792157, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.976471, 0.670588, 1)
+theme_override_fonts/font = ExtResource("4_syhau")
+theme_override_font_sizes/font_size = 26
+text = "Score: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Gear" parent="." instance=ExtResource("2_xe044")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 4)
+
+[node name="Gear2" parent="." instance=ExtResource("2_xe044")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -1)
 
 [connection signal="pressed" from="UI/Play" to="Player" method="_on_play_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/RL_MarginContainer2/RotateLeftButton" to="Player" method="_on_rotate_left_button_pressed"]
