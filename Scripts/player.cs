@@ -12,6 +12,13 @@ public partial class player : CharacterBody3D
     private CanvasItem win_background;
     private Label score_label_win;
 
+    private GpuParticles3D smoke;
+
+    private AudioStreamPlayer game_over;
+    private AudioStreamPlayer victory;
+
+    private Button try_again_button;
+
     public static Vector3 player_position;
 
     private int x = 0;
@@ -23,6 +30,10 @@ public partial class player : CharacterBody3D
 
     public override void _Ready()
     {
+        victory = GetNode<AudioStreamPlayer>($"../WinSound");
+        try_again_button = GetNode<Button>($"../UI/TryAgainButton");
+        game_over = GetNode<AudioStreamPlayer>($"../LostSound");
+        smoke = GetNode<GpuParticles3D>($"GPUParticles3D");
         win_background = GetNode<CanvasItem>($"../UI/PanelContainer");
         text_control = GetNode<Label>($"../UI/TC_MarginContainer/TextControl");
         score_label = GetNode<Label>($"../UI/SC_MarginContainer/Score");
@@ -38,7 +49,7 @@ public partial class player : CharacterBody3D
 
         if (IsOnFloor() != true)
         {
-            Velocity = Vector3.Down * (float)delta * 1000;
+            Velocity = Vector3.Down * (float)delta * 500;
         }
 
         startSimulation((float)delta);
@@ -48,9 +59,6 @@ public partial class player : CharacterBody3D
             calculateControlling();
             isPlay = false;
         }
-
-        /* GD.Print(RotationDegrees); */
-        /* GD.Print(rotate_value); */
 
         MoveAndSlide();
     }
@@ -117,10 +125,14 @@ public partial class player : CharacterBody3D
         {
             win_background.Visible = true;
             score_label_win.Text = $"Score: {score}";
+            victory.Play();
             GD.Print("You win");
         }
         else
         {
+            smoke.Emitting = true;
+            game_over.Play();
+            try_again_button.Visible = true;
             GD.Print("You lost");
         }
 
@@ -150,5 +162,10 @@ public partial class player : CharacterBody3D
     private void _on_gear_area_entered(Area3D area)
     {
         GD.Print(area);
+    }
+
+    private void _on_try_again_button_button_down()
+    {
+        GetTree().ReloadCurrentScene();
     }
 }

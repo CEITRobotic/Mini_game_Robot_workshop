@@ -1,19 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://cca0b2kd5qaaw"]
+[gd_scene load_steps=5 format=3 uid="uid://cca0b2kd5qaaw"]
 
 [ext_resource type="Script" path="res://Scripts/gear.cs" id="1_56mpi"]
+[ext_resource type="ArrayMesh" uid="uid://mj8wbay40a4m" path="res://Object/Gear.obj" id="2_4dipj"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ssknq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4t4s"]
+albedo_color = Color(0.662745, 0.662745, 0.729412, 1)
+metallic = 1.0
+roughness = 0.5
+emission_energy_multiplier = 2.1
+normal_enabled = true
+normal_scale = 16.0
+disable_receive_shadows = true
+grow_amount = -1.455
+point_size = 4.9
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fg1wo"]
-data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o6np8"]
+height = 0.438944
+radius = 0.725542
 
 [node name="Gear" type="Area3D"]
 script = ExtResource("1_56mpi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-mesh = SubResource("BoxMesh_ssknq")
+transform = Transform3D(0.295, 0, 0, 0, 0.295, 0, 0, 0, 0.295, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_l4t4s")
+mesh = ExtResource("2_4dipj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_fg1wo")
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_o6np8")

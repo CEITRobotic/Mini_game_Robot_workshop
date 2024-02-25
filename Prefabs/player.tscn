@@ -1,26 +1,61 @@
-[gd_scene load_steps=6 format=3 uid="uid://djbaaomfxuvxg"]
+[gd_scene load_steps=10 format=3 uid="uid://djbaaomfxuvxg"]
 
 [ext_resource type="Script" path="res://Scripts/player.cs" id="1_oocnf"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_3qrvt"]
+[ext_resource type="PackedScene" uid="uid://dstifby2212w6" path="res://Prefabs/tomi.tscn" id="2_l82gf"]
+[ext_resource type="Texture2D" uid="uid://dkipf0yypyv56" path="res://Images/Smoke (1) - Gavtrain.jpg" id="3_51m81"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aecn7"]
+radius = 0.605246
+height = 1.27965
 
-[sub_resource type="PrismMesh" id="PrismMesh_pjnf1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2cwd"]
+transparency = 1
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_51m81")
+albedo_texture_msdf = true
+rim_enabled = true
+rim = 0.5
+rim_tint = 0.0
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4nqop"]
-albedo_color = Color(0.615686, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_8evat"]
+colors = PackedColorArray(1, 0.315418, 0.163378, 1, 0.366329, 0.172941, 0.298859, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_26lo0"]
+gradient = SubResource("Gradient_8evat")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ynaxt"]
+angle_max = 180.0
+radial_velocity_max = 2.0
+gravity = Vector3(0, 4, 0)
+linear_accel_max = 10.0
+damping_max = 0.24
+scale_min = 0.1
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_26lo0")
+
+[sub_resource type="QuadMesh" id="QuadMesh_cbq5c"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_oocnf")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_3qrvt")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.662224, 0)
 shape = SubResource("CapsuleShape3D_aecn7")
 
-[node name="Pointer" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1.66607e-08, 0.333824, 0, 1.66607e-08, 6.37832e-16, -0.138917, -0.381153, -1.45919e-08, -6.07224e-09, 0.743451, 0.343666, 0)
-mesh = SubResource("PrismMesh_pjnf1")
-surface_material_override/0 = SubResource("StandardMaterial3D_4nqop")
+[node name="TOMI" parent="." instance=ExtResource("2_l82gf")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82115, 0)
+material_override = SubResource("StandardMaterial3D_p2cwd")
+emitting = false
+amount = 30
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_ynaxt")
+draw_pass_1 = SubResource("QuadMesh_cbq5c")

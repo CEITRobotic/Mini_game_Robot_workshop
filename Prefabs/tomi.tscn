@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://dstifby2212w6"]
+
+[ext_resource type="PackedScene" uid="uid://cpv2o6i30qrw7" path="res://Object/TOMI.glb" id="1_v88or"]
+[ext_resource type="Texture2D" uid="uid://drwqjocwk4jwc" path="res://Object/TOMI_Face.png" id="2_qnrkx"]
+[ext_resource type="Texture2D" uid="uid://bur6uspc4ujgc" path="res://Object/TOMI_Text Area.png" id="3_yk6yh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5itub"]
+albedo_color = Color(0.74902, 0.847059, 0.847059, 1)
+roughness = 0.34
+rim_enabled = true
+rim = 0.19
+rim_tint = 0.0
+disable_receive_shadows = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f1e54"]
+albedo_texture = ExtResource("2_qnrkx")
+emission_enabled = true
+emission = Color(0, 0.0745098, 0.117647, 1)
+rim_enabled = true
+rim = 0.06
+rim_tint = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7bls8"]
+albedo_texture = ExtResource("3_yk6yh")
+rim_enabled = true
+
+[node name="TOMI" instance=ExtResource("1_v88or")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="Cylinder" parent="." index="1"]
+transform = Transform3D(-0.0282103, 0.278242, 0, -0.278242, -0.0282103, 0, 0, 0, 0.279669, 1.97116, 1.80596, 0)
+material_override = SubResource("StandardMaterial3D_5itub")
+
+[node name="Sphere" parent="." index="2"]
+transform = Transform3D(1.78757, 0, 0, 0, 1.78757, 0, 0, 0, 1.78757, 0, 2.25254, 0)
+material_override = SubResource("StandardMaterial3D_5itub")
+
+[node name="Sphere_002" parent="." index="3"]
+transform = Transform3D(1.78757, 0, 0, 0, 1.78757, 0, 0, 0, 1.78757, 0, 2.25254, 0)
+material_override = SubResource("StandardMaterial3D_f1e54")
+
+[node name="Sphere_003" parent="." index="4"]
+material_override = SubResource("StandardMaterial3D_7bls8")
+
+[node name="Sphere_004" parent="." index="5"]
+transform = Transform3D(1.78757, 0, 0, 0, 1.78757, 0, 0, 0, 1.78757, 0, 2.25254, 0)

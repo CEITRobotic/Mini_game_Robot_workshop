@@ -1,9 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://b0n472dp47yy3"]
+[gd_scene load_steps=18 format=3 uid="uid://b0n472dp47yy3"]
 
 [ext_resource type="PackedScene" uid="uid://bklfjl404jtpu" path="res://Prefabs/path.tscn" id="1_023be"]
+[ext_resource type="AudioStream" uid="uid://d1dudxgnl6eks" path="res://Sound/game_over.mp3" id="1_61xo3"]
+[ext_resource type="AudioStream" uid="uid://c22n560tl065i" path="res://Sound/background.mp3" id="1_sam5c"]
+[ext_resource type="AudioStream" uid="uid://ca26gjav51e61" path="res://Sound/collect_gear.wav" id="2_8ebj3"]
 [ext_resource type="PackedScene" uid="uid://bc0pcpif28xnf" path="res://Prefabs/goal.tscn" id="2_crhjf"]
 [ext_resource type="PackedScene" uid="uid://djbaaomfxuvxg" path="res://Prefabs/player.tscn" id="2_hbvyn"]
 [ext_resource type="PackedScene" uid="uid://cca0b2kd5qaaw" path="res://Prefabs/gear.tscn" id="2_xe044"]
+[ext_resource type="AudioStream" uid="uid://cn1da2qwe0vnm" path="res://Sound/victory.wav" id="2_yxcj3"]
 [ext_resource type="Texture2D" uid="uid://byjctmspq2qo" path="res://Images/Forward.png" id="3_imi3c"]
 [ext_resource type="Script" path="res://Scripts/goal.cs" id="3_jq5yv"]
 [ext_resource type="Texture2D" uid="uid://ffollx30wcg7" path="res://Images/Rotate Left.png" id="3_t6g6a"]
@@ -27,6 +31,21 @@ sky = SubResource("Sky_kepdq")
 tonemap_mode = 2
 
 [node name="MainScene" type="Node3D"]
+
+[node name="LostSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_61xo3")
+volume_db = 5.0
+
+[node name="WinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_yxcj3")
+volume_db = 5.0
+
+[node name="Background" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_sam5c")
+autoplay = true
+
+[node name="CollectGear" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8ebj3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c0mkb")
@@ -83,7 +102,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 2)
 script = ExtResource("3_jq5yv")
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_hbvyn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.134, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 rotation_edit_mode = 1
 
 [node name="UI" type="Control" parent="."]
@@ -217,6 +236,24 @@ text = "Score: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TryAgainButton" type="Button" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -254.5
+offset_top = -167.44
+offset_right = 254.5
+offset_bottom = -130.44
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_syhau")
+theme_override_font_sizes/font_size = 30
+text = "[ GG Try again . . .  ]"
+
 [node name="Gear" parent="." instance=ExtResource("2_xe044")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 4)
 
@@ -227,3 +264,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -1)
 [connection signal="pressed" from="UI/HBoxContainer/RL_MarginContainer2/RotateLeftButton" to="Player" method="_on_rotate_left_button_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/FW_MarginContainer/ForwardButton" to="Player" method="_on_forward_button_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/RR_MarginContainer3/RotateRightButton" to="Player" method="_on_rotate_right_button_pressed"]
+[connection signal="button_down" from="UI/TryAgainButton" to="Player" method="_on_try_again_button_button_down"]
