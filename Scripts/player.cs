@@ -28,10 +28,13 @@ public partial class player : CharacterBody3D
     private bool isPlay = false;
     private bool key_calculate = true;
 
+    private bool falldown_event = true;
+
     public override void _Ready()
     {
         victory = GetNode<AudioStreamPlayer>($"../WinSound");
         try_again_button = GetNode<Button>($"../UI/TryAgainButton");
+        try_again_button.Text = "[ GG Try again . . .  ]";
         game_over = GetNode<AudioStreamPlayer>($"../LostSound");
         smoke = GetNode<GpuParticles3D>($"GPUParticles3D");
         win_background = GetNode<CanvasItem>($"../UI/PanelContainer");
@@ -50,6 +53,18 @@ public partial class player : CharacterBody3D
         if (IsOnFloor() != true)
         {
             Velocity = Vector3.Down * (float)delta * 500;
+        }
+
+        if (GlobalPosition.Y < -10f)
+        {
+            if (falldown_event)
+            {
+                smoke.Emitting = true;
+                game_over.Playing = true;
+                try_again_button.Visible = true;
+                GD.Print("You lost");
+                falldown_event = false;
+            }
         }
 
         startSimulation((float)delta);
@@ -88,6 +103,9 @@ public partial class player : CharacterBody3D
         string[] words_control = slot_text.Split(' ');
         foreach (string control in words_control)
         {
+            if (!falldown_event)
+                break;
+
             switch (control)
             {
                 case "L":
@@ -125,15 +143,21 @@ public partial class player : CharacterBody3D
         {
             win_background.Visible = true;
             score_label_win.Text = $"Score: {score}";
+            try_again_button.Text = "[ Well play !!!, Play again ... ]";
+            try_again_button.Visible = true;
             victory.Play();
             GD.Print("You win");
         }
         else
         {
-            smoke.Emitting = true;
-            game_over.Play();
-            try_again_button.Visible = true;
-            GD.Print("You lost");
+            if (falldown_event)
+            {
+                smoke.Emitting = true;
+                game_over.Playing = true;
+                try_again_button.Visible = true;
+                GD.Print("You lost");
+                falldown_event = false;
+            }
         }
 
         key_calculate = true;
@@ -166,6 +190,7 @@ public partial class player : CharacterBody3D
 
     private void _on_try_again_button_button_down()
     {
+        score = 0;
         GetTree().ReloadCurrentScene();
     }
 }
